@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
   This code is largely borrowed from Eunsol Choi's implementation.
 

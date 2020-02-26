@@ -93,6 +93,7 @@ def get_joint_datasets(args):
         ("open", get_data_gen('train_full/open_train_tree*.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
         #("open", get_data_gen('distant_supervision/headword_train_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       valid_gen_list.append(("open", get_data_gen('distant_supervision/headword_dev_tree.json', 'dev', args, vocab, "open", elmo=elmo, bert=bert)))
+      print('n remove_open, n only crowd')
     if not args.remove_el and not args.only_crowd:
       valid_gen_list.append(
         ("wiki",
@@ -101,15 +102,19 @@ def get_joint_datasets(args):
         ("wiki",
          #get_data_gen('distant_supervision/el_train_tree.json', 'train', args, vocab, "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
          get_data_gen('train_full/el_train_full_tree.json', 'train', args, vocab, "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
+      print('n remove_el, n only crowd')
     if args.add_crowd or args.only_crowd:
       train_gen_list.append(
         ("open", get_data_gen('crowd/train_m_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+      print('add_crowd or only crowd')
     if args.add_expanded_head:
       train_gen_list.append(
         ("open", get_data_gen('train_full/open_train_1m_cls_relabeled.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+      print('add_expanded_head')
     if args.add_expanded_el:
       train_gen_list.append(
         ("wiki", get_data_gen('train_full/el_train_1m_cls_relabeled.json', 'train', args, vocab,  "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
+      print('add_expanded_el')
   #crowd_dev_gen = get_data_gen('crowd/dev.json', 'dev', args, vocab, "open")
   crowd_dev_gen = None # get_data_gen('crowd/dev_tree.json', 'dev', args, vocab, "open", elmo=elmo, bert=bert)
   return train_gen_list, valid_gen_list, crowd_dev_gen, elmo, bert, vocab
@@ -137,6 +142,7 @@ def get_datasets(data_lists, args):
 def _train(args):
   if args.data_setup == 'joint':
     train_gen_list, val_gen_list, crowd_dev_gen, elmo, bert, vocab = get_joint_datasets(args)
+    print(train_gen_list, val_gen_list)
   else:
     train_fname = args.train_data
     dev_fname = args.dev_data

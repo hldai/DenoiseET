@@ -1,4 +1,5 @@
 from collections import namedtuple, defaultdict
+import config
 
 
 def load_vocab_dict(vocab_file_name, vocab_max_size=None, start_vocab_count=None):
@@ -51,7 +52,8 @@ BERT_UNCASED_SMALL_MODEL = BERT_UNCASED_SMALL_ROOT + 'pytorch_model.bin'
 BERT_UNCASED_SMALL_VOCAB = BERT_UNCASED_SMALL_ROOT + 'vocab.txt'
 
 # --- Definition ---
-DEFINITION = load_definition_dict(FILE_ROOT + '/ontology/types_definition.txt') 
+# DEFINITION = load_definition_dict(FILE_ROOT + '/ontology/types_definition.txt')
+DEFINITION = load_definition_dict(config.DEF_FILE)
 DEF_VOCAB_S2I = get_definition_vocab(DEFINITION)
 DEF_VOCAB_I2S = {v: k for k, v in DEF_VOCAB_S2I.items()}
 DEF_VOCAB_SIZE = len(DEF_VOCAB_S2I)  # 10473
@@ -61,10 +63,14 @@ DEF_PAD_IDX = DEF_VOCAB_S2I['<pad>'] # 1
 
 ANSWER_NUM_DICT = {"open": 10331, "onto":89, "wiki": 4600, "kb":130, "gen":9}
 
-KB_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt", 130)
-WIKI_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt", 4600)
-ANSWER_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt")
-ONTO_ANS_VOCAB = load_vocab_dict(FILE_ROOT + '/ontology/onto_ontology.txt')
+# KB_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt", 130)
+# WIKI_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt", 4600)
+# ANSWER_VOCAB = load_vocab_dict(FILE_ROOT + "/ontology/types.txt")
+# ONTO_ANS_VOCAB = load_vocab_dict(FILE_ROOT + '/ontology/onto_ontology.txt')
+KB_VOCAB = load_vocab_dict(config.TYPES_FILE, 130)
+WIKI_VOCAB = load_vocab_dict(config.TYPES_FILE, 4600)
+ANSWER_VOCAB = load_vocab_dict(config.TYPES_FILE)
+ONTO_ANS_VOCAB = load_vocab_dict(config.ONTO_TYPES_FILE)
 ANS2ID_DICT = {"open": ANSWER_VOCAB, "wiki": WIKI_VOCAB, "kb": KB_VOCAB, "onto":ONTO_ANS_VOCAB}
 
 ELMO_OPTIONS_FILE = "https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json"
@@ -85,6 +91,7 @@ LABEL = label_string("HEAD", "WIKI", "KB")
 
 CHAR_DICT = defaultdict(int)
 char_vocab = [u"<unk>"]
-with open(FILE_ROOT + "/ontology/char_vocab.english.txt") as f:
+# with open(FILE_ROOT + "/ontology/char_vocab.english.txt") as f:
+with open(config.CHAR_VOCAB_FILE) as f:
   char_vocab.extend(c.strip() for c in f.readlines())
   CHAR_DICT.update({c: i for i, c in enumerate(char_vocab)})

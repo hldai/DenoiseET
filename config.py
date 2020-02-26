@@ -6,6 +6,7 @@ if platform().startswith('Windows'):
 else:
     ALT_DATA_PATH = '/home/data/hldai/ultrafine/ld_data'
 
+
 DEF_FILE = join(ALT_DATA_PATH, 'ontology/types_definition.txt')
 TYPES_FILE = join(ALT_DATA_PATH, 'ontology/types.txt')
 ONTO_TYPES_FILE = join(ALT_DATA_PATH, 'ontology/onto_ontology.txt')

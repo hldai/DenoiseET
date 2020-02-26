@@ -166,11 +166,13 @@ def get_example(generator, glove_dict, batch_size, answer_num,
       except StopIteration:
         no_more_data = True
         bsz = i
+        # yield StopIteration
         break
 
-    print(cur_stream)
-    exit()
-    max_seq_length = min(50, max([len(elem[1]) + len(elem[2]) + len(elem[3]) for elem in cur_stream if elem]))
+    # print(cur_stream)
+    # exit()
+    max_seq_length = max([len(elem[1]) + len(elem[2]) + len(elem[3]) for elem in cur_stream if elem])
+    max_seq_length = min(50, max_seq_length)
     token_embed = np.zeros([bsz, max_seq_length, embed_dim], np.float32)
     token_seq_length = np.zeros([bsz], np.float32)
     token_bio = np.zeros([bsz, max_seq_length, 4], np.float32)

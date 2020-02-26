@@ -32,6 +32,7 @@ import config_parser, constant, eval_metric
 sys.path.insert(0, './bert')
 import tokenization
 from optimization import BERTAdam
+import config
 
 from collections import defaultdict
 
@@ -54,8 +55,10 @@ class TensorboardWriter:
       self._validation_log.add_scalar(name, value, global_step)
 
 
-def get_data_gen(dataname, mode, args, vocab_set, goal, elmo=None, bert=None):
-  dataset = data_utils.TypeDataset(constant.FILE_ROOT + dataname, goal=goal, vocab=vocab_set,
+def get_data_gen(data_file_path, mode, args, vocab_set, goal, elmo=None, bert=None):
+  # dataset = data_utils.TypeDataset(constant.FILE_ROOT + dataname, goal=goal, vocab=vocab_set,
+  #                                  elmo=elmo, bert=bert, args=args)
+  dataset = data_utils.TypeDataset(data_file_path, goal=goal, vocab=vocab_set,
                                    elmo=elmo, bert=bert, args=args)
   if mode == 'train':
     data_gen = dataset.get_batch(args.batch_size, args.num_epoch, forever=False, eval_data=False,
@@ -102,8 +105,10 @@ def get_joint_datasets(args):
          get_data_gen('train_full/el_train_full_tree.json', 'train', args, vocab, "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
       print('n remove_el, n only crowd')
     if args.add_crowd or args.only_crowd:
+      # train_gen_list.append(
+      #   ("open", get_data_gen('crowd/train_m_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       train_gen_list.append(
-        ("open", get_data_gen('crowd/train_m_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+        ("open", get_data_gen(config.TRAIN_M_TREE_FILE, 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       print('add_crowd or only crowd')
     if args.add_expanded_head:
       train_gen_list.append(
@@ -724,32 +729,32 @@ def _test_labeler(args):
 
 
 if __name__ == '__main__':
-  config = config_parser.parser.parse_args()
-  print(config)
-  torch.cuda.manual_seed(config.seed)
+  arg_config = config_parser.parser.parse_args()
+  print(arg_config)
+  torch.cuda.manual_seed(arg_config.seed)
   logging.basicConfig(
-    filename=constant.EXP_ROOT +"/"+ config.model_id + datetime.datetime.now().strftime("_%m-%d_%H") + config.mode + '.txt',
+    filename=constant.EXP_ROOT +"/"+ arg_config.model_id + datetime.datetime.now().strftime("_%m-%d_%H") + arg_config.mode + '.txt',
     level=logging.INFO, format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s', datefmt='%m-%d %H:%M')
-  logging.info(config)
+  logging.info(arg_config)
   logger = logging.getLogger()
   logger.setLevel(logging.INFO)
-  if config.model_type in ['et_model', 'labeler', 'filter']:
-    config.elmo = True
-  elif config.model_type in ['bert_uncase_small']:
-    config.bert = True
-    config.bert_param_path = constant.BERT_UNCASED_SMALL_MODEL
+  if arg_config.model_type in ['et_model', 'labeler', 'filter']:
+    arg_config.elmo = True
+  elif arg_config.model_type in ['bert_uncase_small']:
+    arg_config.bert = True
+    arg_config.bert_param_path = constant.BERT_UNCASED_SMALL_MODEL
 
-  if config.mode == 'train':
+  if arg_config.mode == 'train':
     print('==> mode: train')
-    _train(config)
-  elif config.mode == 'test':
+    _train(arg_config)
+  elif arg_config.mode == 'test':
     print('==> mode: test')
-    _test(config)
-  elif config.mode == 'train_labeler':
+    _test(arg_config)
+  elif arg_config.mode == 'train_labeler':
     print('==> mode: train_labeler')
-    _train_labeler(config)   # DEBUG
-  elif config.mode == 'test_labeler':
+    _train_labeler(arg_config)   # DEBUG
+  elif arg_config.mode == 'test_labeler':
     print('==> mode: test_labeler')
-    _test_labeler(config)
+    _test_labeler(arg_config)
   else:
-    raise ValueError("invalid value for 'mode': {}".format(config.mode))
+    raise ValueError("invalid value for 'mode': {}".format(arg_config.mode))

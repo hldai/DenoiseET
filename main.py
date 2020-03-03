@@ -55,11 +55,11 @@ class TensorboardWriter:
       self._validation_log.add_scalar(name, value, global_step)
 
 
-def get_data_gen(data_file_path, mode, args, vocab_set, goal, elmo=None, bert=None):
-  # dataset = data_utils.TypeDataset(constant.FILE_ROOT + dataname, goal=goal, vocab=vocab_set,
-  #                                  elmo=elmo, bert=bert, args=args)
-  dataset = data_utils.TypeDataset(data_file_path, goal=goal, vocab=vocab_set,
+def get_data_gen(dataname, mode, args, vocab_set, goal, elmo=None, bert=None):
+  dataset = data_utils.TypeDataset(constant.FILE_ROOT + dataname, goal=goal, vocab=vocab_set,
                                    elmo=elmo, bert=bert, args=args)
+  # dataset = data_utils.TypeDataset(data_file_path, goal=goal, vocab=vocab_set,
+  #                                  elmo=elmo, bert=bert, args=args)
   if mode == 'train':
     data_gen = dataset.get_batch(args.batch_size, args.num_epoch, forever=False, eval_data=False,
                                  simple_mention=not args.enhanced_mention)
@@ -105,10 +105,10 @@ def get_joint_datasets(args):
          get_data_gen('train_full/el_train_full_tree.json', 'train', args, vocab, "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
       print('n remove_el, n only crowd')
     if args.add_crowd or args.only_crowd:
-      # train_gen_list.append(
-      #   ("open", get_data_gen('crowd/train_m_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       train_gen_list.append(
-        ("open", get_data_gen(config.TRAIN_M_TREE_FILE, 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+        ("open", get_data_gen('crowd/train_m_tree.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+      # train_gen_list.append(
+      #   ("open", get_data_gen(config.TRAIN_M_TREE_FILE, 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       print('add_crowd or only crowd')
     if args.add_expanded_head:
       train_gen_list.append(

@@ -43,14 +43,17 @@ def add_tree(x):
     #print('processing: ' + x['annot_id'])
     x['mention_span_tree'] = get_tree(x['mention_span'].strip())
     return x
-   
+
 
 if __name__ == '__main__':
-    print('==> loading data from: ' + config.read_from)
-    data = load_json(config.read_from)
+    # file_from, file_to = config.read_from, config.save_to
+    file_from = '/home/data/hldai/ultrafine/uf_data/train/open_train_00.json'
+    file_to = '/home/data/hldai/ultrafine/uf_data/train/open_train_tree_00.json'
+    print('==> loading data from: ' + file_from)
+    data = load_json(file_from)
     cores_to_use = 20 #multiprocessing.cpu_count()
     print('==> using ' + str(cores_to_use) + ' cores')
     p = Pool(cores_to_use)
     data_w_tree = p.map(add_tree, data)
-    print('==> saving data to: ' + config.save_to)
-    save_json(config.save_to, data_w_tree)
+    print('==> saving data to: ' + file_to)
+    save_json(file_to, data_w_tree)

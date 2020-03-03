@@ -36,11 +36,12 @@ def get_definition_vocab(def_dict):
   return vocab
 
 
-BASE_PATH = '.' # 
+# BASE_PATH = '.' #
+BASE_PATH = '/home/data/hldai/ultrafine/ld_data'  #
 
-FILE_ROOT = BASE_PATH + '/data/'
-GLOVE_VEC = BASE_PATH + '/data/pretrained_vector/glove.840B.300d.txt'
-ELMO_VEC = BASE_PATH + '/data/pretrained_vector/type_elmo.npz'
+FILE_ROOT = BASE_PATH + '/'
+GLOVE_VEC = '/home/data/hldai/res/wordvecs/glove.840B.300d.txt'
+ELMO_VEC = BASE_PATH + '/pretrained_vector/type_elmo.npz'
 EXP_ROOT = BASE_PATH + '/model'
 
 # --- BERT ---

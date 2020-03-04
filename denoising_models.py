@@ -181,7 +181,15 @@ class Filter(LabelerBase):
     def_vec = torch.zeros(batch_size, max_n_types, def_dim).cuda()
     for i in range(batch_size):
       n_types = feed_dict["y_noisy_lengths"][i]
+      # try:
       hid = self.sorted_rnn(def_embed[i, :n_types], feed_dict['type_definition_length'][i, :n_types], self.lstm_def)
+      # except RuntimeError:
+      #   print(i, n_types)
+      #   print(def_embed[i])
+      #   print(def_embed[i, :n_types])
+      #   print(def_embed.size())
+      #   print(def_embed[i].size())
+      #   exit()
       def_vec[i, :n_types, :] = hid[:, -1, :]
     def_vec = torch.sum(def_vec, 1)
     output = torch.cat((sent_vec, type_vec, def_vec), 1)

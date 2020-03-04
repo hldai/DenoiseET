@@ -33,6 +33,10 @@ class ModelBase(nn.Module):
     packed_sequence_input = pack_padded_sequence(sorted_inputs,
                                                  sorted_sequence_lengths.data.long().tolist(),
                                                  batch_first=True)
+    # except RuntimeError:
+    #   print(sequences)
+    #   print(sequence_lengths)
+    #   exit()
     packed_sequence_output, _ = rnn(packed_sequence_input, None)
     unpacked_sequence_tensor, _ = pad_packed_sequence(packed_sequence_output, batch_first=True)
     return unpacked_sequence_tensor.index_select(0, restoration_indices)

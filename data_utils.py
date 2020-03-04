@@ -169,6 +169,9 @@ def get_example(generator, glove_dict, batch_size, answer_num,
         # yield StopIteration
         break
 
+    if bsz == 0:
+      break
+
     # print(cur_stream)
     # exit()
     max_seq_length = max([len(elem[1]) + len(elem[2]) + len(elem[3]) for elem in cur_stream if elem])
@@ -187,10 +190,17 @@ def get_example(generator, glove_dict, batch_size, answer_num,
     targets = np.zeros([bsz, answer_num], np.float32)
 
     if is_labeler:
-      y_tups = [list(zip(elem[9], elem[8])) for elem in cur_stream if elem] # noisy y (9, 8) 
+      y_tups = [list(zip(elem[9], elem[8])) for elem in cur_stream if elem] # noisy y (9, 8)
+      elems = [elem for elem in cur_stream if elem]
       y_noisy = [[t[1] for t in tup] for tup in y_tups]
       y_noisy_idx = [[t[0] for t in tup] for tup in y_tups]
       y_noisy_lengths = [len(yn) for yn in y_noisy]
+      # for i, v in enumerate(y_noisy_lengths):
+      #   if v == 0:
+      #     print(y_tups[i])
+      #     print(elems[i])
+      #     print(elems[i][7], elems[i][8], elems[i][9])
+      #     exit()
       max_y_noisy = max(y_noisy_lengths)
       y_noisy_embed = np.zeros([bsz, max_y_noisy, embed_dim], np.float32) # assum  ELMo 
       y_noisy_lengths_np = np.array(y_noisy_lengths, np.int64)

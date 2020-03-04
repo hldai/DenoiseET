@@ -1,1 +1,1 @@
-python -u main.py filter_eval -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type filter -mode test_labeler -reload_model_name filter_best -eval_data train_full/open_train_tree_00.json -load
+python -u main.py filter_eval -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type filter -mode test_labeler -reload_model_name filter_best -eval_data train_full/open_train_tree_prep_00.json -load

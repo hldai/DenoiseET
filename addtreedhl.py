@@ -64,6 +64,8 @@ def __process_data(filename, output_file):
 
 if __name__ == '__main__':
     # file_from, file_to = config.read_from, config.save_to
-    file_from = '/home/data/hldai/ultrafine/uf_data/train/open_train_00.json'
-    file_to = '/home/data/hldai/ultrafine/ld_data/train/open_train_tree_00.json'
+    # file_from = '/home/data/hldai/ultrafine/uf_data/train/open_train_00.json'
+    # file_to = '/home/data/hldai/ultrafine/ld_data/train/open_train_tree_00.json'
+    file_from = '/home/data/hldai/ultrafine/uf_data/train/el_train.json'
+    file_to = '/home/data/hldai/ultrafine/ld_data/train_full/el_train_full_tree.json'
     __process_data(file_from, file_to)

@@ -687,7 +687,8 @@ def _test_labeler(args):
       #print('eval_batch')
       #for k, v in eval_batch.items():
       #  print(k, v.size())
-      loss, output_logits, cls_logits = model(eval_batch, args.goal)
+      with torch.no_grad():
+        loss, output_logits, cls_logits = model(eval_batch, args.goal)
       #print('loss', loss)
       #print('output_logits', output_logits)
       #print('cls_logits', cls_logits)

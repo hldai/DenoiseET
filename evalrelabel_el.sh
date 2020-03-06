@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=3 python -u main.py labeler_eval_el_train_full_tree_dhl -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type labeler -mode test_labeler -reload_model_name labeler_best -eval_data train_full/el_train_full_tree_dhl.json -load

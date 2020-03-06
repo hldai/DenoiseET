@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=2 python -u main.py filter_eval_open_train_tree_dhl_00 -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type filter -mode test_labeler -reload_model_name filter_best -eval_data train_full/open_train_tree_dhl_00.json -load

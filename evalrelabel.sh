@@ -1,1 +1,1 @@
-python -u main.py labeler_eval -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type labeler -mode test_labeler -reload_model_name labeler_best -eval_data train_full/open_train_tree_prep_00.json -load
+CUDA_VISIBLE_DIVICES=2 python -u main.py labeler_eval -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type labeler -mode test_labeler -reload_model_name labeler_best -eval_data train_full/el_train_full_tree_prep.json -load

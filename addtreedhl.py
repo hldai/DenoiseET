@@ -32,7 +32,7 @@ def add_tree(x):
 
 
 def __process_data(filename, output_file):
-    block_size = 100000
+    block_size = 200000
     cores_to_use = 20
 
     idx = 0
@@ -53,6 +53,7 @@ def __process_data(filename, output_file):
         data_w_tree = p.map(add_tree, mentions)
         for x in data_w_tree:
             fout.write('{}\n'.format(json.dumps(x)))
+        p.close()
 
         if len(mentions) < block_size:
             break

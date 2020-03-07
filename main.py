@@ -112,11 +112,11 @@ def get_joint_datasets(args):
       print('add_crowd or only crowd')
     if args.add_expanded_head:
       train_gen_list.append(
-        ("open", get_data_gen('train_full/open_train_1m_cls_relabeled.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
+        ("open", get_data_gen('train_full/open_train_tree_dhl_00_denoised.json', 'train', args, vocab, "open", elmo=elmo, bert=bert)))
       print('add_expanded_head')
     if args.add_expanded_el:
       train_gen_list.append(
-        ("wiki", get_data_gen('train_full/el_train_1m_cls_relabeled.json', 'train', args, vocab,  "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
+        ("wiki", get_data_gen('train_full/el_train_full_tree_dhl_denoised.json', 'train', args, vocab,  "wiki" if args.multitask else "open", elmo=elmo, bert=bert)))
       print('add_expanded_el')
   #crowd_dev_gen = get_data_gen('crowd/dev.json', 'dev', args, vocab, "open")
   crowd_dev_gen = None # get_data_gen('crowd/dev_tree.json', 'dev', args, vocab, "open", elmo=elmo, bert=bert)

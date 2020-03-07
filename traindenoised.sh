@@ -1,0 +1,1 @@
+CUDA_VISIBLE_DEVICES=2 python main.py et_model -enhanced_mention -data_setup joint -add_crowd -multitask -mention_lstm -add_headword_emb -model_type et_model -remove_el -remove_open -add_expanded_head -add_expanded_el

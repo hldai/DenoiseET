@@ -33,7 +33,6 @@ def add_tree(x):
 
 def __process_data(filename, output_file):
     block_size = 200000
-    cores_to_use = 20
 
     idx = 0
     f = open(filename, encoding='utf-8')
@@ -64,9 +63,10 @@ def __process_data(filename, output_file):
 
 
 if __name__ == '__main__':
+    cores_to_use = 2
     # file_from, file_to = config.read_from, config.save_to
     # file_from = '/home/data/hldai/ultrafine/uf_data/train/open_train_00.json'
     # file_to = '/home/data/hldai/ultrafine/ld_data/train/open_train_tree_00.json'
-    file_from = '/home/data/hldai/ultrafine/uf_data/train/el_train.json'
-    file_to = '/home/data/hldai/ultrafine/ld_data/train_full/el_train_full_tree.json'
+    file_from = '/home/data/hldai/ultrafine/concept/concepts_probase_demo_uf.json'
+    file_to = '/home/data/hldai/ultrafine/concept/concepts_probase_demo_uf_tree.json'
     __process_data(file_from, file_to)
